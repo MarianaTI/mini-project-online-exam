@@ -29,4 +29,17 @@ export const ButtonStyled = styled.button`
         transform: scale(0.97);
       }
     `}
+    
+  ${(props) =>
+    props.customNextQuestion &&
+    css`
+      background-color: #FAA300;
+      :hover {
+        background-color: #db8f00;
+      }
+      :active {
+        transform: scale(0.97);
+      }
+    `}
+
 `;

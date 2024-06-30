@@ -64,3 +64,12 @@ export const FooterModal = styled.div`
   padding-top: 12px;
   gap: 12px;
 `;
+
+export const NextQuestion = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--default-inverse);
+  padding: 12px 12px 0px 12px;
+  gap: 12px;
+`;

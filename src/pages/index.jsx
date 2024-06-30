@@ -1,10 +1,12 @@
 import ButtonComponent from "@/components/Button";
+import ExamComponent from "@/components/Exam";
 import ModalComponent from "@/components/Modal";
 import {
   ButtonStyled,
   Container,
   FooterModal,
   Info,
+  NextQuestion,
 } from "@/styles/Home.style";
 import React, { useState } from "react";
 
@@ -61,17 +63,12 @@ export default function Home() {
           <ButtonComponent text="Continuar" onClick={handleContinue} />
         </FooterModal>
       </ModalComponent>
-      <ModalComponent
-        open={openExam}
-        onClose={toggleModalExam}
-        title="Examen de matemáticas"
-      >
-        <p>Aquí irán las preguntas del examen.</p>
-        <FooterModal>
-          <ButtonComponent customGoOut text="Salir" onClick={toggleModalExam} />
-          <ButtonComponent text="Continuar" />
-        </FooterModal>
-      </ModalComponent>
+      <ExamComponent open={openExam} onClose={toggleModalExam} time="0:00">
+        <NextQuestion>
+          <span>1 de 5 preguntas</span>
+          <ButtonComponent text="Siguiente pregunta" customNextQuestion onClick={toggleModalExam}/>
+        </NextQuestion>
+      </ExamComponent>
     </Container>
   );
 }
