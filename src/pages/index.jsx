@@ -1,7 +1,30 @@
-import { ButtonStyled, Container, Info } from "@/styles/Home.style";
-import React from "react";
+import ButtonComponent from "@/components/Button";
+import ModalComponent from "@/components/Modal";
+import {
+  ButtonStyled,
+  Container,
+  FooterModal,
+  Info,
+} from "@/styles/Home.style";
+import React, { useState } from "react";
 
-export default function Home() {  
+export default function Home() {
+  const [open, setOpen] = useState(false);
+  const [openExam, setOpenExam] = useState(false);
+
+  const toggleModal = () => {
+    setOpen((prev) => !prev);
+  };
+
+  const toggleModalExam = () => {
+    setOpenExam((prev) => !prev);
+  };
+
+  const handleContinue = () => {
+    setOpen(false);
+    setOpenExam(true);
+  };
+
   return (
     <Container>
       <Info>
@@ -16,8 +39,39 @@ export default function Home() {
             puntos fuertes y áreas de mejora.
           </p>
         </div>
-        <ButtonStyled>Comenzar ahora</ButtonStyled>
+        <ButtonStyled onClick={toggleModal}>Comenzar ahora</ButtonStyled>
       </Info>
+      <ModalComponent
+        open={open}
+        onClose={toggleModal}
+        title="Reglas del examen"
+      >
+        <p>
+          1. Solo tendrás{" "}
+          <span style={{ color: "red", fontSize: "16px" }}>15 segundos</span>{" "}
+          para responder cada pregunta <br />
+          2. Una vez que seleccionas tu respuesta, no se puede deshacer. <br />
+          3. No puedes seleccionar ninguna opción una vez que se acaba el
+          tiempo. <br />
+          4. No puedes salir del Quiz mientras está corriendo el tiempo. <br />
+          5. Obtendrás puntos con base en tus preguntas correctas.
+        </p>
+        <FooterModal>
+          <ButtonComponent customGoOut text="Salir" onClick={toggleModal} />
+          <ButtonComponent text="Continuar" onClick={handleContinue} />
+        </FooterModal>
+      </ModalComponent>
+      <ModalComponent
+        open={openExam}
+        onClose={toggleModalExam}
+        title="Examen de matemáticas"
+      >
+        <p>Aquí irán las preguntas del examen.</p>
+        <FooterModal>
+          <ButtonComponent customGoOut text="Salir" onClick={toggleModalExam} />
+          <ButtonComponent text="Continuar" />
+        </FooterModal>
+      </ModalComponent>
     </Container>
   );
 }
