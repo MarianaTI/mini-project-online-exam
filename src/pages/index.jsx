@@ -1,6 +1,8 @@
+import GetAllQuizUseCase from "@/application/usecases/quizUseCase/GetAllQuizUseCase";
 import ButtonComponent from "@/components/Button";
 import ExamComponent from "@/components/Exam";
 import ModalComponent from "@/components/Modal";
+import QuizRepo from "@/infraestructure/implementation/httpRequest/axios/QuizRepo";
 import {
   ButtonStyled,
   Container,
@@ -8,11 +10,25 @@ import {
   Info,
   NextQuestion,
 } from "@/styles/Home.style";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [openExam, setOpenExam] = useState(false);
+  const [quiz, setQuiz] = useState([]);
+
+  const quizRepo = new QuizRepo();
+  const getAllQuizUseCase = new GetAllQuizUseCase(quizRepo);
+
+  const fetchQuiz = async () => {
+    try {
+      const response = await getAllQuizUseCase.run();
+      setQuiz(response.quizzes);
+      console.log(response.quizzes);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const toggleModal = () => {
     setOpen((prev) => !prev);
@@ -26,6 +42,10 @@ export default function Home() {
     setOpen(false);
     setOpenExam(true);
   };
+
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
 
   return (
     <Container>
