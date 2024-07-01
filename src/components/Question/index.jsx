@@ -1,10 +1,10 @@
 import React from "react";
 import { Content } from "./index.style";
 
-const QuestionComponent = ({ correctDesign, incorrectDesign }) => {
+const QuestionComponent = ({ correctDesign, incorrectDesign, answers }) => {
   return (
     <Content correctDesign={correctDesign} incorrectDesign={incorrectDesign}>
-      2
+      {answers}
     </Content>
   );
 };

@@ -10,7 +10,17 @@ import {
 } from "./index.style";
 import QuestionComponent from "../Question";
 
-const ExamComponent = ({ open, onClose, children, time }) => {
+const ExamComponent = ({
+  open,
+  onClose,
+  children,
+  time,
+  question,
+  answerA,
+  answerB,
+  answerC,
+  answerD,
+}) => {
   const [progress, setProgress] = useState(0);
 
   const handleClose = (event, reason) => {
@@ -49,8 +59,11 @@ const ExamComponent = ({ open, onClose, children, time }) => {
             </Time>
           </div>
           <QuestionsContainer>
-            <span className="question">Si 3x+5=203x+5=20, ¿cuál es el valor de xx?</span>
-            <QuestionComponent/>
+            <span className="question">{question}</span>
+            <QuestionComponent answers={answerA} />
+            <QuestionComponent answers={answerB} />
+            <QuestionComponent answers={answerC} />
+            <QuestionComponent answers={answerD} />
           </QuestionsContainer>
         </Content>
         <ModalFooter>{children}</ModalFooter>

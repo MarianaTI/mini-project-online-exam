@@ -16,6 +16,8 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [openExam, setOpenExam] = useState(false);
   const [quiz, setQuiz] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [randomQuestions, setRandomQuestions] = useState([]);
 
   const quizRepo = new QuizRepo();
   const getAllQuizUseCase = new GetAllQuizUseCase(quizRepo);
@@ -23,12 +25,16 @@ export default function Home() {
   const fetchQuiz = async () => {
     try {
       const response = await getAllQuizUseCase.run();
+      const randomSelection = response.quizzes
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 10);
       setQuiz(response.quizzes);
-      console.log(response.quizzes);
+      setRandomQuestions(randomSelection);
+      console.log(randomQuestions);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const toggleModal = () => {
     setOpen((prev) => !prev);
@@ -41,6 +47,14 @@ export default function Home() {
   const handleContinue = () => {
     setOpen(false);
     setOpenExam(true);
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < randomQuestions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      setOpenExam(false);
+    }
   };
 
   useEffect(() => {
@@ -83,12 +97,29 @@ export default function Home() {
           <ButtonComponent text="Continuar" onClick={handleContinue} />
         </FooterModal>
       </ModalComponent>
-      <ExamComponent open={openExam} onClose={toggleModalExam} time="0:00">
-        <NextQuestion>
-          <span>1 de 5 preguntas</span>
-          <ButtonComponent text="Siguiente pregunta" customNextQuestion onClick={toggleModalExam}/>
-        </NextQuestion>
-      </ExamComponent>
+      {randomQuestions.length > 0 && (
+        <ExamComponent
+          open={openExam}
+          onClose={toggleModalExam}
+          time="0:00"
+          question={randomQuestions[currentQuestionIndex].question}
+          answerA={randomQuestions[currentQuestionIndex].answers.A}
+          answerB={randomQuestions[currentQuestionIndex].answers.B}
+          answerC={randomQuestions[currentQuestionIndex].answers.C}
+          answerD={randomQuestions[currentQuestionIndex].answers.D}
+        >
+          <NextQuestion>
+            <span>
+              {currentQuestionIndex + 1} de {randomQuestions.length} preguntas
+            </span>
+            <ButtonComponent
+              text="Siguiente pregunta"
+              customNextQuestion
+              onClick={handleNextQuestion}
+            />
+          </NextQuestion>
+        </ExamComponent>
+      )}
     </Container>
   );
 }
