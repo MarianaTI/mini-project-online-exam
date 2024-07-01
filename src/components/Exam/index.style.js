@@ -69,3 +69,33 @@ export const Time = styled.div`
 export const ModalFooter = styled.div`
   padding-bottom: 16px;
 `;
+
+export const AnswersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const Answers = styled.button`
+  cursor: pointer;
+  border: 1px solid #b8d1f7;
+  border-radius: 10px;
+  padding: 8px 16px;
+  background-color: #f1f6fd;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: start;
+  ${(props) =>
+    props.correctDesign &&
+    css`
+      border: 1px solid #05b601;
+      background-color: #e0f9df;
+    `}
+  ${(props) =>
+    props.incorrectDesign &&
+    css`
+      border: 1px solid #ed6b6b;
+      background-color: #fdecec;
+    `}
+`;
