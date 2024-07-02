@@ -11,7 +11,9 @@ export const Content = styled.button`
   font-size: 16px;
   font-weight: 400;
   text-align: start;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   ${(props) =>
     props.designType === "correct" &&
     css`
@@ -25,4 +27,10 @@ export const Content = styled.button`
       border: 1px solid #ed6b6b;
       background-color: #fdecec;
     `}
+`;
+
+export const IconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: start;
 `;
