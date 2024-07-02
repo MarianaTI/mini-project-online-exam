@@ -21,6 +21,7 @@ const ExamComponent = ({
   answerD,
   correctAnswer,
   onNextQuestion,
+  onFinishExam,
 }) => {
   const [progress, setProgress] = useState(0);
   const [answer, setAnswer] = useState(null);
@@ -89,8 +90,9 @@ const ExamComponent = ({
     // Imprimir el número de respuestas correctas al cerrar el examen
     if (!open && correctCount > 0) {
       console.log(`Respuestas correctas: ${correctCount}`);
+      onFinishExam(correctCount);
     }
-  }, [open, correctCount]);
+  }, [open, correctCount, onFinishExam]);
 
   return (
     <Modal open={open} onClose={handleClose}>

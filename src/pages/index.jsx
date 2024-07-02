@@ -15,7 +15,7 @@ import {
 } from "@/styles/Home.style";
 import React, { useEffect, useState } from "react";
 
-export default function Home({score}) {
+export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [openExam, setOpenExam] = useState(false);
@@ -23,6 +23,7 @@ export default function Home({score}) {
   const [quiz, setQuiz] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [randomQuestions, setRandomQuestions] = useState([]);
+  const [score, setScore] = useState(0);
 
   const quizRepo = new QuizRepo();
   const getAllQuizUseCase = new GetAllQuizUseCase(quizRepo);
@@ -58,6 +59,11 @@ export default function Home({score}) {
     setOpenFinish((prev) => !prev);
   };
 
+  const handleFinishExam = (correctCount) => {
+    setScore(correctCount);
+    setOpenFinish(true);
+  };
+
   const handleContinue = () => {
     setOpen(false);
     setOpenExam(true);
@@ -67,20 +73,18 @@ export default function Home({score}) {
     toggleModalFinish();
     setCurrentQuestionIndex(0);
     await fetchQuiz();
-  }
+  };
 
   const handleContinueFinish = async () => {
     toggleModalFinish(); // Cerrar el modal de resultados
     await restartExam(); // Reiniciar el examen
   };
-  
+
   const restartExam = async () => {
     setCurrentQuestionIndex(0); // Reiniciar el índice de preguntas
-    // setScore(0); // Reiniciar la puntuación
     await fetchQuiz(); // Volver a cargar las preguntas
     setOpenExam(true); // Abrir el modal de examen
   };
-  
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < randomQuestions.length - 1) {
@@ -91,7 +95,7 @@ export default function Home({score}) {
     }
   };
 
-  const result = (score = 10) => {
+  const result = (score) => {
     let message;
 
     switch (true) {
@@ -173,6 +177,7 @@ export default function Home({score}) {
               answerD={randomQuestions[currentQuestionIndex].answers.D}
               correctAnswer={randomQuestions[currentQuestionIndex].result}
               onNextQuestion={handleNextQuestion}
+              onFinishExam={handleFinishExam}
             >
               <NextQuestion>
                 <span>
@@ -196,11 +201,7 @@ export default function Home({score}) {
       >
         <ResultContainer>{result(score)}</ResultContainer>
         <FooterModalFinish>
-          <ButtonComponent
-            customGoOut
-            text="Salir"
-            onClick={handleGoOut}
-          />
+          <ButtonComponent customGoOut text="Salir" onClick={handleGoOut} />
           <ButtonComponent text="Repetir" onClick={handleContinueFinish} />
         </FooterModalFinish>
       </ModalComponent>
