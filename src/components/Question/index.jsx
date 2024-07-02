@@ -1,9 +1,9 @@
 import React from "react";
 import { Content } from "./index.style";
 
-const QuestionComponent = ({ correctDesign, incorrectDesign, answers }) => {
+const QuestionComponent = ({ designType, answers, onClick }) => {
   return (
-    <Content correctDesign={correctDesign} incorrectDesign={incorrectDesign}>
+    <Content designType={designType} onClick={onClick}>
       {answers}
     </Content>
   );

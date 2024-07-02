@@ -11,14 +11,16 @@ export const Content = styled.button`
   font-size: 16px;
   font-weight: 400;
   text-align: start;
+
   ${(props) =>
-    props.correctDesign &&
+    props.designType === "correct" &&
     css`
       border: 1px solid #05b601;
       background-color: #e0f9df;
     `}
+
   ${(props) =>
-    props.incorrectDesign &&
+    props.designType === "incorrect" &&
     css`
       border: 1px solid #ed6b6b;
       background-color: #fdecec;
