@@ -10,6 +10,7 @@ import {
   Answers,
   AnswersContainer,
 } from "./index.style";
+import QuestionComponent from "../Question";
 
 const ExamComponent = ({
   open,
@@ -21,8 +22,6 @@ const ExamComponent = ({
   answerB,
   answerC,
   answerD,
-  correctDesign,
-  incorrectDesign,
 }) => {
   const [progress, setProgress] = useState(0);
 
@@ -63,12 +62,10 @@ const ExamComponent = ({
           </div>
           <QuestionsContainer>
             <span className="question">{question}</span>
-            <AnswersContainer>
-              <Answers>{answerA}</Answers>
-              <Answers>{answerB}</Answers>
-              <Answers>{answerC}</Answers>
-              <Answers>{answerD}</Answers>
-            </AnswersContainer>
+            <QuestionComponent answers={answerA} correctDesign/>
+            <QuestionComponent answers={answerB} incorrectDesign/>
+            <QuestionComponent answers={answerC} />
+            <QuestionComponent answers={answerD} />
           </QuestionsContainer>
         </Content>
         <ModalFooter>{children}</ModalFooter>
