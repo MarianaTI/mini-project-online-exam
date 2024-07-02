@@ -7,14 +7,19 @@ import {
   ButtonStyled,
   Container,
   FooterModal,
+  FooterModalFinish,
   Info,
   NextQuestion,
+  ResultContainer,
 } from "@/styles/Home.style";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-export default function Home() {
+export default function Home({ score }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [openExam, setOpenExam] = useState(false);
+  const [openFinish, setOpenFinish] = useState(false);
   const [quiz, setQuiz] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [randomQuestions, setRandomQuestions] = useState([]);
@@ -30,7 +35,6 @@ export default function Home() {
         .slice(0, 10);
       setQuiz(response.quizzes);
       setRandomQuestions(randomSelection);
-      console.log(randomQuestions);
     } catch (error) {
       console.log(error);
     }
@@ -44,9 +48,18 @@ export default function Home() {
     setOpenExam((prev) => !prev);
   };
 
+  const toggleModalFinish = () => {
+    setOpenFinish((prev) => !prev);
+  };
+
   const handleContinue = () => {
     setOpen(false);
     setOpenExam(true);
+  };
+
+  const handleContinueFinish = () => {
+    setOpen(false);
+    setOpenFinish(true);
   };
 
   const handleNextQuestion = () => {
@@ -55,6 +68,36 @@ export default function Home() {
     } else {
       setOpenExam(false);
     }
+  };
+
+  const resetExam = () => {
+    setScore(0);
+    setCurrentQuestionIndex(0);
+    fetchQuiz();
+    setOpenExam(true);
+  };
+
+  const result = (score) => {
+    let message;
+
+    switch (true) {
+      case score >= 8:
+        message =
+          "Felicitaciones! 🎉 Conseguiste " + score + " aciertos de 10.";
+        break;
+      case score >= 5:
+        message = "Que bien 😎 Conseguiste " + score + " aciertos de 10.";
+        break;
+      case score >= 1:
+        message =
+          "¡Hay que estudiar! 😅 Conseguiste " + score + " aciertos de 10.";
+        break;
+      default:
+        message = "Lo siento 😞 Conseguiste " + score + " aciertos de 10.";
+        break;
+    }
+
+    return message;
   };
 
   useEffect(() => {
@@ -94,7 +137,7 @@ export default function Home() {
         </p>
         <FooterModal>
           <ButtonComponent customGoOut text="Salir" onClick={toggleModal} />
-          <ButtonComponent text="Continuar" onClick={handleContinue} />
+          <ButtonComponent text="Continuar" onClick={handleContinueFinish} />
         </FooterModal>
       </ModalComponent>
       {randomQuestions.length > 0 && (
@@ -120,6 +163,21 @@ export default function Home() {
           </NextQuestion>
         </ExamComponent>
       )}
+      <ModalComponent
+        open={openFinish}
+        onClose={toggleModalFinish}
+        title="¡Has finalizado tu examen!"
+      >
+        <ResultContainer>{result(score)}</ResultContainer>
+        <FooterModalFinish>
+          <ButtonComponent
+            customGoOut
+            text="Salir"
+            onClick={toggleModalFinish}
+          />
+          <ButtonComponent text="Continuar" onClick={handleContinue} />
+        </FooterModalFinish>
+      </ModalComponent>
     </Container>
   );
 }

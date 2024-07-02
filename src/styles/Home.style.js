@@ -73,3 +73,16 @@ export const NextQuestion = styled.div`
   padding: 12px 12px 0px 12px;
   gap: 12px;
 `;
+
+export const FooterModalFinish = styled.div`
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--default-inverse);
+  padding-top: 12px;
+  gap: 12px;
+`;
+
+export const ResultContainer = styled.div`
+  text-align: center;
+  padding: 24px 0;
+`;
