@@ -10,7 +10,6 @@ import {
   FooterModal,
   FooterModalFinish,
   Info,
-  NextQuestion,
   ResultContainer,
 } from "@/styles/Home.style";
 import React, { useEffect, useState } from "react";
@@ -181,6 +180,7 @@ export default function Home() {
               handleNextQuestion={handleNextQuestion}
               correctAnswerOf={currentQuestionIndex + 1}
               totalQuestions={randomQuestions.length}
+              openExam={openExam}
             />
           )}
         </>

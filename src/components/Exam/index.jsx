@@ -25,6 +25,7 @@ const ExamComponent = ({
   handleNextQuestion,
   correctAnswerOf,
   totalQuestions,
+  openExam
 }) => {
   const [progress, setProgress] = useState(0);
   const [answer, setAnswer] = useState(null);
@@ -56,6 +57,8 @@ const ExamComponent = ({
   };
 
   useEffect(() => {
+    if (!openExam) return;
+    
     const timer = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {
         if (prevTimeLeft === 0) {
