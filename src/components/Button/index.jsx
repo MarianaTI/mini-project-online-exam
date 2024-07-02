@@ -6,12 +6,14 @@ const ButtonComponent = ({
   text,
   customGoOut,
   customNextQuestion,
+  disabled,
 }) => {
   return (
     <ButtonStyled
       onClick={onClick}
       customGoOut={customGoOut}
       customNextQuestion={customNextQuestion}
+      disabled={disabled}
     >
       {text}
     </ButtonStyled>

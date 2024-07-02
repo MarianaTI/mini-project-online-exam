@@ -9,11 +9,11 @@ import {
   QuestionsContainer,
 } from "./index.style";
 import QuestionComponent from "../Question";
+import ButtonComponent from "../Button";
 
 const ExamComponent = ({
   open,
   onClose,
-  children,
   question,
   answerA,
   answerB,
@@ -22,13 +22,15 @@ const ExamComponent = ({
   correctAnswer,
   onNextQuestion,
   onFinishExam,
+  handleNextQuestion,
+  correctAnswerOf,
+  totalQuestions,
 }) => {
   const [progress, setProgress] = useState(0);
   const [answer, setAnswer] = useState(null);
   const [answered, setAnswered] = useState(false);
   const [correctCount, setCorrectCount] = useState(0); // Estado para contar respuestas correctas
   const [timeLeft, setTimeLeft] = useState(15);
-  
 
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
@@ -37,7 +39,8 @@ const ExamComponent = ({
   };
 
   const handleAnswerClick = (selectedAnswer) => {
-    if (!answered) { // Si no se ha respondido aún
+    if (!answered) {
+      // Si no se ha respondido aún
       setAnswer(selectedAnswer);
       setAnswered(true); // Marcar como respondido
 
@@ -48,15 +51,14 @@ const ExamComponent = ({
     }
   };
 
-  const formatTime = (time) =>{
+  const formatTime = (time) => {
     return `${time} segundos`;
-  }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {
         if (prevTimeLeft === 0) {
-
           ///! si no cumple en responder se ejecuta esto fragmento
           clearInterval(timer);
           setAnswered(true);
@@ -163,7 +165,17 @@ const ExamComponent = ({
             />
           </QuestionsContainer>
         </Content>
-        <ModalFooter>{children}</ModalFooter>
+        <ModalFooter>
+          <span>
+            {correctAnswerOf} de preguntas {totalQuestions}
+          </span>
+          <ButtonComponent
+            text="Siguiente pregunta"
+            customNextQuestion
+            onClick={handleNextQuestion}
+            disabled={!answered}
+          />
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

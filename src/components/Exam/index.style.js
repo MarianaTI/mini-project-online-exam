@@ -68,6 +68,9 @@ export const Time = styled.div`
 
 export const ModalFooter = styled.div`
   padding-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const AnswersContainer = styled.div`

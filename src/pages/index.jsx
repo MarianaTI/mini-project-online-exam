@@ -178,19 +178,10 @@ export default function Home() {
               correctAnswer={randomQuestions[currentQuestionIndex].result}
               onNextQuestion={handleNextQuestion}
               onFinishExam={handleFinishExam}
-            >
-              <NextQuestion>
-                <span>
-                  {currentQuestionIndex + 1} de {randomQuestions.length}{" "}
-                  preguntas
-                </span>
-                <ButtonComponent
-                  text="Siguiente pregunta"
-                  customNextQuestion
-                  onClick={handleNextQuestion}
-                />
-              </NextQuestion>
-            </ExamComponent>
+              handleNextQuestion={handleNextQuestion}
+              correctAnswerOf={currentQuestionIndex + 1}
+              totalQuestions={randomQuestions.length}
+            />
           )}
         </>
       )}

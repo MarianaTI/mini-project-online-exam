@@ -29,11 +29,11 @@ export const ButtonStyled = styled.button`
         transform: scale(0.97);
       }
     `}
-    
+
   ${(props) =>
     props.customNextQuestion &&
     css`
-      background-color: #FAA300;
+      background-color: #faa300;
       :hover {
         background-color: #db8f00;
       }
@@ -41,5 +41,13 @@ export const ButtonStyled = styled.button`
         transform: scale(0.97);
       }
     `}
-
+    ${(props) =>
+    props.disabled &&
+    css`
+      background-color: #d3d3d3;
+      cursor: not-allowed;
+      :hover {
+        background-color: #d3d3d3; 
+      }
+    `}
 `;
