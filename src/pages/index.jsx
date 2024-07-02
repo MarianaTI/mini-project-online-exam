@@ -13,10 +13,9 @@ import {
   NextQuestion,
   ResultContainer,
 } from "@/styles/Home.style";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-export default function Home() {
+export default function Home({score}) {
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [openExam, setOpenExam] = useState(false);
@@ -64,27 +63,35 @@ export default function Home() {
     setOpenExam(true);
   };
 
-  const handleContinueFinish = () => {
-    setOpen(false);
-    setOpenFinish(true);
+  const handleGoOut = async () => {
+    toggleModalFinish();
+    setCurrentQuestionIndex(0);
+    await fetchQuiz();
+  }
+
+  const handleContinueFinish = async () => {
+    toggleModalFinish(); // Cerrar el modal de resultados
+    await restartExam(); // Reiniciar el examen
   };
+  
+  const restartExam = async () => {
+    setCurrentQuestionIndex(0); // Reiniciar el índice de preguntas
+    // setScore(0); // Reiniciar la puntuación
+    await fetchQuiz(); // Volver a cargar las preguntas
+    setOpenExam(true); // Abrir el modal de examen
+  };
+  
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < randomQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       setOpenExam(false);
+      setOpenFinish(true);
     }
   };
 
-  const resetExam = () => {
-    setScore(0);
-    setCurrentQuestionIndex(0);
-    fetchQuiz();
-    setOpenExam(true);
-  };
-
-  const result = (score) => {
+  const result = (score = 10) => {
     let message;
 
     switch (true) {
@@ -192,9 +199,9 @@ export default function Home() {
           <ButtonComponent
             customGoOut
             text="Salir"
-            onClick={toggleModalFinish}
+            onClick={handleGoOut}
           />
-          <ButtonComponent text="Continuar" onClick={handleContinue} />
+          <ButtonComponent text="Repetir" onClick={handleContinueFinish} />
         </FooterModalFinish>
       </ModalComponent>
     </Container>
