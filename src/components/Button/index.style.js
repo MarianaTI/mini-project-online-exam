@@ -44,10 +44,6 @@ export const ButtonStyled = styled.button`
     ${(props) =>
     props.disabled &&
     css`
-      background-color: #d3d3d3;
-      cursor: not-allowed;
-      :hover {
-        background-color: #d3d3d3; 
-      }
+      display: none;
     `}
 `;
